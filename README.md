@@ -9,3 +9,6 @@ https://stackoverflow.com/questions/11282503/java-web-crawler-libraries
 
 FinMind 金融 X 大數據
 https://finmindtrade.com/
+
+crawler4j
+https://github.com/yasserg/crawler4j
