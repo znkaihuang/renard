@@ -12,3 +12,6 @@ https://finmindtrade.com/
 
 crawler4j
 https://github.com/yasserg/crawler4j
+
+renardClient: data consumer<br>
+renardServer: data provider<br>
