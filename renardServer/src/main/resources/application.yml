@@ -1,2 +1,7 @@
 server:
   port: 8081
+  
+# Links
+link:
+  twseopenapi:
+    listedcompanyinfo: https://openapi.twse.com.tw/v1/opendata/t187ap03_L
