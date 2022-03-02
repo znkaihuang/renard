@@ -1,11 +1,10 @@
 package com.lessayer.common.service;
 
+import java.io.IOException;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public interface ConnectionService {
 	
-	public HttpsURLConnection getResponseContent(URL url);
+	public String getResponseContent(URL url) throws IOException;
 	
 }
