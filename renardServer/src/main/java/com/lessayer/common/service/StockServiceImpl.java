@@ -1,58 +1,99 @@
 package com.lessayer.common.service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.lessayer.common.entity.Company;
+import com.lessayer.common.entity.Stock;
+
 
 @Service
 public class StockServiceImpl implements StockService {
 	
-	private Optional<String> listedCompanyCache;
+	private List<Company> listedCompanies;
 	
-	public String retrieveAllListedCompany() throws IOException {
+	@Autowired
+	ConnectionService connection;
+	@Autowired
+	FormatConverter formatConverter;
+	
+	@Value("${link.twseopenapi.listedcompanyinfo}")
+	String twseopenapiURL;
+	
+	@PostConstruct
+	private void initService() throws IOException {
 		
-		URL url = new URL("https://openapi.twse.com.tw/v1/opendata/t187ap03_L");
-		
-		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-		
-		connection.setRequestMethod("GET");
-		connection.setRequestProperty("Content-Type", "application/json; utf-8");
-		connection.setRequestProperty("Accept", "application/json");
-		connection.setRequestProperty("Cache-Control", "no-cache");
-		connection.setRequestProperty("If-Modified-Since", "Mon, 26 Jul 1997 05:00:00 GMT");
-		connection.setRequestProperty("Pragma", "no-cache");
-		
-		StringBuilder response = new StringBuilder(); 
-		
-		try (BufferedReader bufferedReader = new BufferedReader( new
-		InputStreamReader(connection.getInputStream(), "utf-8"))) {
-		
-			String responseLine = null;
-			
-			while((responseLine = bufferedReader.readLine()) != null) {
-			
-				response.append(responseLine.trim());
-			
-			}
-		
-		}
-		
-		return response.toString();
+		retrieveAllListedCompanies();
 		
 	}
 	
-	public Company searchCompanyWithId() {
+	@Override
+	public void retrieveAllListedCompanies() throws IOException {
+			
+		URL url = new URL(twseopenapiURL);
+		String responseContent = connection.getResponseContent(url);
+		listedCompanies = formatConverter.convertJsonStringToCompanyClass(responseContent);
 		
-		Company company = new Company();
-		return company;
+	}
+
+	@Override
+	public List<Company> returnAllListedCompanies() {
+		
+		return this.listedCompanies;
+	}
+
+	@Override
+	public Optional<List<Company>> returnListCompanyByCompanyId(String companyId) {
+		
+		List<Company> target = null;
+		for(Company company : this.listedCompanies) {
+			
+			if(company.getCompanyId().equals(companyId)) {
+				
+				target = Arrays.asList(company);
+				break;
+				
+			}
+			
+		}
+		return Optional.ofNullable(target);
+	}
+
+	@Override
+	public Optional<List<Company>> returnListCompanyByCompanyName(String companyName) {
+		
+		List<Company> target = null;
+		for(Company company : this.listedCompanies) {
+			
+			if(company.getCompanyName().equals(companyName) ||
+					company.getCompanyAbbrev().equals(companyName) ||
+					company.getSymbol().equalsIgnoreCase(companyName)) {
+				
+				target = Arrays.asList(company);
+				break;
+				
+			}
+			
+		}
+		return Optional.ofNullable(target);
+	}
+
+	@Override
+	public Optional<List<Stock>> returnStockByCompanyId(String companyId) throws IOException {
+		
+		URL url = new URL("https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20220112&stockNo=2330");
+		String responseContent = connection.getResponseContent(url);
+		List<Stock> stock = formatConverter.convertJsonStringToStockClass(responseContent);
+		return Optional.ofNullable(stock);
 		
 	}
 	
