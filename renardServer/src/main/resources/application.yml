@@ -5,3 +5,5 @@ server:
 link:
   twseopenapi:
     listedcompanyinfo: https://openapi.twse.com.tw/v1/opendata/t187ap03_L
+  twse:
+    stockhistoryinfo: https://www.twse.com.tw/exchangeReport/STOCK_DAY
