@@ -24,13 +24,16 @@ import com.lessayer.common.service.StockService;
 public class APIController {
 	
 	@Autowired
-	StockService stockService;
+	private StockService stockService;
 	@Autowired
-	FormatConverter formatConverter;
+	private FormatConverter formatConverter;
+	
+	private LocalTime lastRequestTime;
 	
 	@GetMapping("/allCompanies")
 	public String showListedCompanies() throws IOException {
 		
+		lastRequestTime = LocalTime.now();
 		return formatConverter.convertCompanyClassToJsonString(
 				stockService.returnAllListedCompanies());
 		
@@ -40,6 +43,7 @@ public class APIController {
 	public String showCompanyById(@PathVariable(value = "companyId") String companyId) 
 			throws JsonProcessingException {
 		
+		lastRequestTime = LocalTime.now();
 		Optional<List<Company>> companyOptional = 
 				stockService.returnListCompanyByCompanyId(companyId);
 		if(companyOptional.isEmpty()) {
@@ -59,6 +63,7 @@ public class APIController {
 	public String showCompanyByName(@PathVariable(value = "companyName") String companyName) 
 			throws JsonProcessingException {
 		
+		lastRequestTime = LocalTime.now();
 		Optional<List<Company>> companyOptional = 
 				stockService.returnListCompanyByCompanyName(companyName);
 		if(companyOptional.isEmpty()) {
@@ -75,7 +80,7 @@ public class APIController {
 	}
 	
 	@GetMapping("/instantInfo")
-	public String showIntantInfo() {
+	public String showIntantInfo() throws IOException {
 		
 		if(LocalTime.now().compareTo(StockService.marketOpeningTime) < 0) {
 			
@@ -91,7 +96,31 @@ public class APIController {
 		}
 		else {
 			
-			return "good!";
+			if(Optional.ofNullable(lastRequestTime).isEmpty()) {
+				
+				lastRequestTime = LocalTime.now();
+				return "Okay";
+			
+			}
+			else {
+				
+				if(LocalTime.now().isAfter(lastRequestTime.plusMinutes(1))) {
+					
+					lastRequestTime = LocalTime.now();
+					return "Okay";
+					
+				}
+				else {
+					
+					String warnMessage = "Your previous request is at " 
+							+ lastRequestTime.toString()
+							+ ". Please send another request 1 minute later.";
+					return warnMessage;
+					
+				}
+			}
+
+			//return stockService.returnStockInstantInfoByCompanyId("1234");
 			
 		}
 	}
@@ -101,6 +130,7 @@ public class APIController {
 			@PathVariable(value = "companyId") String companyId) 
 					throws IOException {
 		
+		lastRequestTime = LocalTime.now();
 		Optional<List<Stock>> stockOptional = 
 				stockService.returnStockByDateAndCompanyId(date, companyId);
 		if(stockOptional.isEmpty()) {
