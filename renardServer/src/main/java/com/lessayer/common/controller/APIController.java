@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -95,14 +96,16 @@ public class APIController {
 		}
 	}
 	
-	@GetMapping("/historyInfo")
-	public String showHistoryInfo() throws IOException {
+	@GetMapping("/historyInfo_{date}_{companyId}")
+	public String showHistoryInfo(@PathVariable(value = "date") String date,
+			@PathVariable(value = "companyId") String companyId) 
+					throws IOException {
 		
 		Optional<List<Stock>> stockOptional = 
-				stockService.returnStockByCompanyId("2330");
+				stockService.returnStockByDateAndCompanyId(date, companyId);
 		if(stockOptional.isEmpty()) {
 			
-			return "No such company name!";
+			return "Bad format!";
 			
 		}
 		else {
