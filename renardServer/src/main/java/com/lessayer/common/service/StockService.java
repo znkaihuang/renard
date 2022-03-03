@@ -18,6 +18,7 @@ public interface StockService {
 	public List<Company> returnAllListedCompanies();
 	public Optional<List<Company>> returnListCompanyByCompanyId(String companyId);
 	public Optional<List<Company>> returnListCompanyByCompanyName(String companyName);
-	public Optional<List<Stock>> returnStockByCompanyId(String companyId) throws IOException;
+	public Optional<List<Stock>> returnStockByDateAndCompanyId(String date, String companyId)
+			throws IOException;
 	
 }

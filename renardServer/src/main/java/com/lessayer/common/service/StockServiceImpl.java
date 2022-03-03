@@ -3,7 +3,9 @@ package com.lessayer.common.service;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -22,12 +24,14 @@ public class StockServiceImpl implements StockService {
 	private List<Company> listedCompanies;
 	
 	@Autowired
-	ConnectionService connection;
+	private ConnectionService connection;
 	@Autowired
-	FormatConverter formatConverter;
+	private FormatConverter formatConverter;
 	
 	@Value("${link.twseopenapi.listedcompanyinfo}")
-	String twseopenapiURL;
+	private String twseopenapiURL;
+	@Value("${link.twse.stockhistoryinfo}")
+	private String twsestockhistroyURL;
 	
 	@PostConstruct
 	private void initService() throws IOException {
@@ -49,6 +53,7 @@ public class StockServiceImpl implements StockService {
 	public List<Company> returnAllListedCompanies() {
 		
 		return this.listedCompanies;
+		
 	}
 
 	@Override
@@ -65,7 +70,9 @@ public class StockServiceImpl implements StockService {
 			}
 			
 		}
+		
 		return Optional.ofNullable(target);
+		
 	}
 
 	@Override
@@ -84,14 +91,21 @@ public class StockServiceImpl implements StockService {
 			}
 			
 		}
+		
 		return Optional.ofNullable(target);
+		
 	}
 
 	@Override
-	public Optional<List<Stock>> returnStockByCompanyId(String companyId) throws IOException {
+	public Optional<List<Stock>> returnStockByDateAndCompanyId(String date, String companyId) 
+			throws IOException {
 		
-		URL url = new URL("https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20220112&stockNo=2330");
-		String responseContent = connection.getResponseContent(url);
+		URL url = new URL(twsestockhistroyURL);
+		Map<String, String> pathVar = new HashMap<>();
+		pathVar.put("response", "json");
+		pathVar.put("date", date);
+		pathVar.put("stockNo", companyId);
+		String responseContent = connection.getResponseContentWithPathVar(url, pathVar);
 		List<Stock> stock = formatConverter.convertJsonStringToStockClass(responseContent);
 		return Optional.ofNullable(stock);
 		
