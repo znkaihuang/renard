@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.lessayer.common.entity.Company;
+import com.lessayer.common.entity.InstantStockInfo;
+import com.lessayer.common.entity.Schedule;
 import com.lessayer.common.entity.Stock;
 
 
@@ -22,29 +24,37 @@ import com.lessayer.common.entity.Stock;
 public class StockServiceImpl implements StockService {
 	
 	private List<Company> listedCompanies;
+	private List<Schedule> holidaySchedule;
 	
 	@Autowired
-	private ConnectionService connection;
+	private ConnectionService connectionService;
 	@Autowired
 	private FormatConverter formatConverter;
 	
 	@Value("${link.twseopenapi.listedcompanyinfo}")
-	private String twseopenapiURL;
+	private String twseopenapilistedcompanyURL;
 	@Value("${link.twse.stockhistoryinfo}")
 	private String twsestockhistroyURL;
+	@Value("${link.twse.instantinfo}")
+	private String twseinstantinfoURL;
+	@Value("${link.twseopenapi.holidayschedule}")
+	private String twseopenapiholidayscheduleURL;
+	@Value("${link.twse.totalindexhistory}")
+	private String twsetotalindexhistoryURL;
 	
 	@PostConstruct
 	private void initService() throws IOException {
 		
 		retrieveAllListedCompanies();
+		retrieveHolidaySchedule();
 		
 	}
 	
 	@Override
 	public void retrieveAllListedCompanies() throws IOException {
 			
-		URL url = new URL(twseopenapiURL);
-		String responseContent = connection.getResponseContent(url);
+		URL url = new URL(twseopenapilistedcompanyURL);
+		String responseContent = connectionService.getResponseContent(url);
 		listedCompanies = formatConverter.convertJsonStringToCompanyClass(responseContent);
 		
 	}
@@ -105,9 +115,53 @@ public class StockServiceImpl implements StockService {
 		pathVar.put("response", "json");
 		pathVar.put("date", date);
 		pathVar.put("stockNo", companyId);
-		String responseContent = connection.getResponseContentWithPathVar(url, pathVar);
+		String responseContent = connectionService.getResponseContentWithPathVar(url, pathVar);
 		List<Stock> stock = formatConverter.convertJsonStringToStockClass(responseContent);
 		return Optional.ofNullable(stock);
+		
+	}
+
+	@Override
+	public Optional<List<InstantStockInfo>> returnStockInstantInfoByCompanyId(String companyId) 
+			throws IOException {
+		
+		URL url = new URL(twseinstantinfoURL);
+		Map<String, String> pathVar = new HashMap<>();
+		pathVar.put("ex_ch", "tse_" + companyId + ".tw");
+		pathVar.put("json", "1");
+		pathVar.put("delay", "0");
+		String responseContent = connectionService.getResponseContentWithPathVar(url, pathVar);
+		List<InstantStockInfo> instantInfo = 
+				formatConverter.convertJsonStringToInstantStockInfoClass(responseContent);
+		return Optional.ofNullable(instantInfo);
+		
+	}
+
+	@Override
+	public void retrieveHolidaySchedule() throws IOException {
+		
+		URL url = new URL(twseopenapiholidayscheduleURL);
+		String responseContent = connectionService.getResponseContent(url);
+		holidaySchedule = formatConverter.convertJsonStringToScheduleClass(responseContent);
+		
+	}
+
+	@Override
+	public List<Schedule> returnHolidaySchedule() {
+		
+		return this.holidaySchedule;
+	}
+
+	@Override
+	public Optional<List<Stock>> returnTotalIndexByDate(String date) throws IOException {
+		
+		URL url = new URL(twsetotalindexhistoryURL);
+		Map<String, String> pathVar = new HashMap<>();
+		pathVar.put("response", "json");
+		pathVar.put("date", date);
+		String responseContent = connectionService.getResponseContentWithPathVar(url, pathVar);
+		return Optional.ofNullable(
+				formatConverter.convertJsonStringToTotalIndex(responseContent));
 		
 	}
 	
