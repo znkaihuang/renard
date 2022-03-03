@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,7 +20,7 @@ import com.lessayer.common.service.StockService;
 
 @RestController
 @RequestMapping("/renardServer")
-public class APIController {
+public class Controller implements ControllerInterface {
 	
 	@Autowired
 	private StockService stockService;
@@ -79,8 +78,9 @@ public class APIController {
 		
 	}
 	
-	@GetMapping("/instantInfo")
-	public String showIntantInfo() throws IOException {
+	@GetMapping("/instantInfo_{companyId}")
+	public String showIntantInfo(@PathVariable(value = "companyId") String companyId)
+			throws IOException {
 		
 		if(LocalTime.now().compareTo(StockService.marketOpeningTime) < 0) {
 			
@@ -99,7 +99,8 @@ public class APIController {
 			if(Optional.ofNullable(lastRequestTime).isEmpty()) {
 				
 				lastRequestTime = LocalTime.now();
-				return "Okay";
+				return formatConverter.convertInstantStockInfoClassToJsonString(
+						stockService.returnStockInstantInfoByCompanyId(companyId).get());
 			
 			}
 			else {
@@ -107,7 +108,8 @@ public class APIController {
 				if(LocalTime.now().isAfter(lastRequestTime.plusMinutes(1))) {
 					
 					lastRequestTime = LocalTime.now();
-					return "Okay";
+					return formatConverter.convertInstantStockInfoClassToJsonString(
+							stockService.returnStockInstantInfoByCompanyId(companyId).get());
 					
 				}
 				else {
@@ -119,10 +121,15 @@ public class APIController {
 					
 				}
 			}
-
-			//return stockService.returnStockInstantInfoByCompanyId("1234");
 			
 		}
+	}
+	
+	@GetMapping("/instantAggreInfo")
+	public String showInstantAggregateInfo() throws IOException {
+		
+		return showIntantInfo("t00");
+		
 	}
 	
 	@GetMapping("/historyInfo_{date}_{companyId}")
@@ -157,6 +164,23 @@ public class APIController {
 	public String showCurrentTime() {
 		
 		return LocalTime.now().toString();
+		
+	}
+	
+	@GetMapping("/holidaySchedule")
+	public String showHolidaySchedule() throws JsonProcessingException {
+		
+		return formatConverter.convertScheduleClassToJsonString(
+				stockService.returnHolidaySchedule());
+		
+	}
+	
+	@GetMapping("/totalIndexHistory_{date}")
+	public String showTotalIndexHistory(@PathVariable(value = "date") String date) 
+			throws IOException {
+		
+		return formatConverter.convertTotalIndexToJsonString(
+				stockService.returnTotalIndexByDate(date).get());
 		
 	}
 	
