@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Map;
+
 import javax.net.ssl.HttpsURLConnection;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,21 @@ public class ConnectionServiceImpl implements ConnectionService {
 		connection.setRequestProperty("Pragma", "no-cache");
 		
 		return readResponseAsString(connection);
+	}
+	
+	@Override
+	public String getResponseContentWithPathVar(URL url, Map<String, String> pathVar) 
+			throws IOException {
+		
+		StringBuilder urlString = new StringBuilder(url.toString());
+		urlString.append("?");
+		pathVar.forEach((Key, Value) -> {
+			urlString.append(Key + "=" + Value + "&");
+		});
+		urlString.deleteCharAt(urlString.length() - 1);
+		URL targetURL = new URL(urlString.toString());
+		return getResponseContent(targetURL);
+	
 	}
 	
 	private String readResponseAsString(HttpsURLConnection connection) throws IOException {
