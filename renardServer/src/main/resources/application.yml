@@ -5,5 +5,8 @@ server:
 link:
   twseopenapi:
     listedcompanyinfo: https://openapi.twse.com.tw/v1/opendata/t187ap03_L
+    holidayschedule: https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule
   twse:
     stockhistoryinfo: https://www.twse.com.tw/exchangeReport/STOCK_DAY
+    instantinfo: https://mis.twse.com.tw/stock/api/getStockInfo.jsp
+    totalindexhistory: https://www.twse.com.tw/indicesReport/MI_5MINS_HIST
