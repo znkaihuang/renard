@@ -1,3 +1,10 @@
+/*Header*/
+div.header {
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+
 /*Navigation Bar*/
 nav ul {
   list-style-type: none;
