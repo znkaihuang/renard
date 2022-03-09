@@ -29,28 +29,24 @@ public class RenardApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		logger.info("Starting renard ...");
-		URL url = new URL("http://localhost:8081/renardServer/holidaySchedule");
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("GET");
-		
-		StringBuilder content = new StringBuilder();
-		try(BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(connection.getInputStream(), "utf-8"))) {
-			
-			
-			String string = null;
-			while((string = bufferedReader.readLine()) != null) {
-				content.append(string);
-				
-			}
-			
-		}
-		logger.info(content.toString());
-		
-		
-		
-		
+		/*
+		 * logger.info("Starting renard ..."); URL url = new
+		 * URL("http://localhost:8081/renardServer/holidaySchedule"); HttpURLConnection
+		 * connection = (HttpURLConnection) url.openConnection();
+		 * connection.setRequestMethod("GET");
+		 * 
+		 * StringBuilder content = new StringBuilder(); try(BufferedReader
+		 * bufferedReader = new BufferedReader( new
+		 * InputStreamReader(connection.getInputStream(), "utf-8"))) {
+		 * 
+		 * 
+		 * String string = null; while((string = bufferedReader.readLine()) != null) {
+		 * content.append(string);
+		 * 
+		 * }
+		 * 
+		 * } logger.info(content.toString());
+		 */
 		
 	}
 
