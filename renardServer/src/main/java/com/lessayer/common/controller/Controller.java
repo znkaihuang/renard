@@ -88,12 +88,14 @@ public class Controller implements ControllerInterface {
 					+ " Please try later.";
 			
 		}
-		else if(LocalTime.now().compareTo(StockService.marketClosingTime) > 0) {
-			
-			return "Stock market opens at 9:00 and closes at 13:30."
-					+ " Please try earlier tomorrow.";
-			
-		}
+		/*
+		 * else if(LocalTime.now().compareTo(StockService.marketClosingTime) > 0) {
+		 * 
+		 * return "Stock market opens at 9:00 and closes at 13:30." +
+		 * " Please try earlier tomorrow.";
+		 * 
+		 * }
+		 */
 		else {
 			
 			if(Optional.ofNullable(lastRequestTime).isEmpty()) {
