@@ -181,8 +181,30 @@ public class Controller implements ControllerInterface {
 	public String showTotalIndexHistory(@PathVariable(value = "date") String date) 
 			throws IOException {
 		
-		return formatConverter.convertTotalIndexToJsonString(
-				stockService.returnTotalIndexByDate(date).get());
+		String lastMonthDate = createPrevMonthString(date);
+		List<Stock> thisMonth = stockService.returnTotalIndexByDate(date).get();
+		List<Stock> lastMonth = stockService.returnTotalIndexByDate(lastMonthDate).get();
+		thisMonth.addAll(lastMonth);
+		return formatConverter.convertTotalIndexToJsonString(thisMonth);
+		
+	}
+	
+	public String createPrevMonthString(String date) {
+		
+		StringBuilder returnedString = new StringBuilder();
+		int year = Integer.parseInt(date.substring(0, 4));
+		int month = Integer.parseInt(date.substring(4, 6)) - 1;
+		if(month < 1) {
+			month = 12;
+			year -= 1;
+		}
+		if(month < 10) {
+			returnedString.append(year).append("0").append(month).append("01");
+		}
+		else {
+			returnedString.append(year).append(month).append("01");
+		}
+		return returnedString.toString();
 		
 	}
 	
