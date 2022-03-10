@@ -184,8 +184,8 @@ public class Controller implements ControllerInterface {
 		String lastMonthDate = createPrevMonthString(date);
 		List<Stock> thisMonth = stockService.returnTotalIndexByDate(date).get();
 		List<Stock> lastMonth = stockService.returnTotalIndexByDate(lastMonthDate).get();
-		thisMonth.addAll(lastMonth);
-		return formatConverter.convertTotalIndexToJsonString(thisMonth);
+		lastMonth.addAll(thisMonth);
+		return formatConverter.convertTotalIndexToJsonString(lastMonth);
 		
 	}
 	
