@@ -107,7 +107,7 @@ public class Controller implements ControllerInterface {
 			}
 			else {
 				
-				if(LocalTime.now().isAfter(lastRequestTime.plusMinutes(1))) {
+				if(LocalTime.now().isAfter(lastRequestTime.plusSeconds(10))) {
 					
 					lastRequestTime = LocalTime.now();
 					return formatConverter.convertInstantStockInfoClassToJsonString(
@@ -118,7 +118,7 @@ public class Controller implements ControllerInterface {
 					
 					String warnMessage = "Your previous request is at " 
 							+ lastRequestTime.toString()
-							+ ". Please send another request 1 minute later.";
+							+ ". Please send another request 10 seconds later.";
 					return warnMessage;
 					
 				}

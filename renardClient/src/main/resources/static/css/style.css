@@ -1,8 +1,10 @@
 /*Header*/
 div.header {
-  background-color: #f1f1f1;
-  padding: 20px;
-  text-align: center;
+  background-color: #333;
+  margin-bottom: -22px;
+  padding-bottom: 20px;
+  color: white;
+  
 }
 
 /*Navigation Bar*/
@@ -31,10 +33,44 @@ nav li a {
   text-decoration: none;
 }
 
-nav li a:hover:not(.active) {
+nav li a:hover:not(.nav-active) {
   background-color: #111;
 }
 
 nav li a.nav-active {
   background-color: #04AA6D;
+}
+
+/*Daily info*/
+div.dailyInfo, div.dailyInfo > *{
+	border: 1px solid black;
+}
+
+div.dailyInfo p {
+	font-size: 20px;
+}
+
+div.dailyInfo output {
+	font-weight: bold;
+	color: #2e3436;
+}
+
+div.dailyInfo #todayIndexHighest {
+	font-weight: bold;
+	color: red;
+}
+
+div.dailyInfo #todayIndexLowest {
+	font-weight: bold;
+	color: green;
+}
+
+/*Monthly info*/
+div.monthlyInfo, div.monthlyInfo > * {
+	border: 1px solid black;
+}
+
+/*Rank info*/
+div.rankInfo, div.rankInfo > * {
+	border: 1px solid black;
 }

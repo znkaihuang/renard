@@ -9,9 +9,28 @@
 	<body>
 		<div th:replace="~{fragment :: header}"></div>
 		<div th:replace="~{fragment :: navbar}"></div>
-
-		
-		<script src="js/test.js"></script>
+		<div class="dailyInfo">
+			<h2>今日即時資訊</h2>
+			<p>
+				今日日期： <output id="currentDate"></output>
+				&nbsp; 當前時間： <output id="currentTime"></output>
+				<br>
+				大盤指數(每半分鐘更新)： <output id="instantIndex"></output>
+				今日最高點： <output id="todayIndexHighest"></output>
+				今日最低點： <output id="todayIndexLowest"></output>
+				今日開盤： <output id="todayOpeningIndex"></output>
+				昨日收盤： <output id="yesterdayClosingIndex"></output>
+			</p>
+		</div>
+		<div class="monthlyInfo">
+			<h2>本月大盤走勢</h2>
+			<div id="indexPlot">
+				
+			</div>
+		</div>
+		<div class="rankInfo">
+		</div>
+		<script src="js/script.js"></script>
 		<!--script src="webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>  -->
 	</body>
 </html>
