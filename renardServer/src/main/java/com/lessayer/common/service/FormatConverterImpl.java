@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lessayer.common.entity.Company;
@@ -16,7 +17,8 @@ import com.lessayer.common.entity.Stock;
 @Service
 public class FormatConverterImpl implements FormatConverter {
 
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = new ObjectMapper().configure(
+			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	
 	@Override
 	public List<Company> convertJsonStringToCompanyClass(String jsonString) 
