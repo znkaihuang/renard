@@ -3,6 +3,7 @@ package com.lessayer.common.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -181,11 +182,17 @@ public class Controller implements ControllerInterface {
 	public String showTotalIndexHistory(@PathVariable(value = "date") String date) 
 			throws IOException {
 		
-		String lastMonthDate = createPrevMonthString(date);
-		List<Stock> thisMonth = stockService.returnTotalIndexByDate(date).get();
-		List<Stock> lastMonth = stockService.returnTotalIndexByDate(lastMonthDate).get();
-		lastMonth.addAll(thisMonth);
-		return formatConverter.convertTotalIndexToJsonString(lastMonth);
+		String[] monthString = new String[6];
+		monthString[5] = date;
+		for(int i = 4; i >= 0; i--) {
+			monthString[i] = createPrevMonthString(monthString[i + 1]);
+		}
+		List<Stock> indexHalfYearHistory = new ArrayList<Stock>();
+		for(int i = 0; i < 6; i ++) {
+			indexHalfYearHistory
+				.addAll(stockService.returnTotalIndexByDate(monthString[i]).get());
+		}
+		return formatConverter.convertTotalIndexToJsonString(indexHalfYearHistory);
 		
 	}
 	
@@ -206,6 +213,13 @@ public class Controller implements ControllerInterface {
 		}
 		return returnedString.toString();
 		
+	}
+
+	@GetMapping("/allListedCompaniesDailyInfo")
+	public String showAllListedCompaniesDailyInfo() throws IOException {
+		
+		return formatConverter.convertStockClassToJsonString(
+				stockService.returnAllCompaniesDailyInfo().get());
 	}
 	
 }

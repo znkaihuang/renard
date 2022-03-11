@@ -41,6 +41,8 @@ public class StockServiceImpl implements StockService {
 	private String twseopenapiholidayscheduleURL;
 	@Value("${link.twse.totalindexhistory}")
 	private String twsetotalindexhistoryURL;
+	@Value("${link.twseopenapi.listedcompanydailyinfo}")
+	private String twseopenapilistedcompanyinfoURL;
 	
 	@PostConstruct
 	private void initService() throws IOException {
@@ -116,7 +118,7 @@ public class StockServiceImpl implements StockService {
 		pathVar.put("date", date);
 		pathVar.put("stockNo", companyId);
 		String responseContent = connectionService.getResponseContentWithPathVar(url, pathVar);
-		List<Stock> stock = formatConverter.convertJsonStringToStockClass(responseContent);
+		List<Stock> stock = formatConverter.convertJsonStringToStockClass(responseContent, "twse");
 		return Optional.ofNullable(stock);
 		
 	}
@@ -163,6 +165,15 @@ public class StockServiceImpl implements StockService {
 		return Optional.ofNullable(
 				formatConverter.convertJsonStringToTotalIndex(responseContent));
 		
+	}
+
+	@Override
+	public Optional<List<Stock>> returnAllCompaniesDailyInfo() throws IOException {
+		
+		URL url = new URL(twseopenapilistedcompanyinfoURL);
+		String responseContent = connectionService.getResponseContent(url);
+		return Optional.ofNullable(
+				formatConverter.convertJsonStringToStockClass(responseContent, "twseopenapi"));
 	}
 	
 }

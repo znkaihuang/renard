@@ -15,7 +15,7 @@ public interface FormatConverter {
 			throws JsonMappingException, JsonProcessingException;
 	public String convertCompanyClassToJsonString(List<Company> companies)
 			throws JsonProcessingException;
-	public List<Stock> convertJsonStringToStockClass(String jsonString)
+	public List<Stock> convertJsonStringToStockClass(String jsonString, String source)
 			throws JsonMappingException, JsonProcessingException;
 	public String convertStockClassToJsonString(List<Stock> stock)
 			throws JsonProcessingException;

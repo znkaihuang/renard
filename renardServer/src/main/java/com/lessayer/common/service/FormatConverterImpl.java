@@ -34,31 +34,43 @@ public class FormatConverterImpl implements FormatConverter {
 	}
 
 	@Override
-	public List<Stock> convertJsonStringToStockClass(String jsonString)
+	public List<Stock> convertJsonStringToStockClass(String jsonString, String source)
 			throws JsonMappingException, JsonProcessingException {
 		
-		List<Stock> stockLists = new ArrayList<>();
-		String startString = "\"data\":[";
-		String endString = "],\"notes\":";
-		int start = jsonString.indexOf(startString) + startString.length();
-		int end = jsonString.indexOf(endString);
-		for(String stockByDay : jsonString.substring(start, end).split("]")) {
-			
-			Stock stock = new Stock();
-			String[] datas = stockByDay.substring(1).split("\"");
-			stock.setDate(datas[1]);
-			stock.setTradeVolume(datas[3]);
-			stock.setTradeValue(datas[5]);
-			stock.setOpeningPrice(datas[7]);
-			stock.setHighestPrice(datas[9]);
-			stock.setLowestPrice(datas[11]);
-			stock.setClosingPrice(datas[13]);
-			stock.setChange(datas[15]);
-			stock.setTransaction(datas[datas.length-1]);
-			stockLists.add(stock);
+		if(source.compareTo("twse") == 0) {
+			List<Stock> stockLists = new ArrayList<>();
+			String startString = "\"data\":[";
+			String endString = "],\"notes\":";
+			int start = jsonString.indexOf(startString) + startString.length();
+			int end = jsonString.indexOf(endString);
+			for(String stockByDay : jsonString.substring(start, end).split("]")) {
+				
+				Stock stock = new Stock();
+				String[] datas = stockByDay.substring(1).split("\"");
+				stock.setDate(datas[1]);
+				stock.setTradeVolume(datas[3]);
+				stock.setTradeValue(datas[5]);
+				stock.setOpeningPrice(datas[7]);
+				stock.setHighestPrice(datas[9]);
+				stock.setLowestPrice(datas[11]);
+				stock.setClosingPrice(datas[13]);
+				stock.setChange(datas[15]);
+				stock.setTransaction(datas[datas.length-1]);
+				stockLists.add(stock);
+				
+			}
+			return stockLists;
+		}
+		else if(source.compareTo("twseopenapi") == 0) {
+		
+			return objectMapper.readValue(jsonString, new TypeReference<List<Stock>>() {});
 			
 		}
-		return stockLists;
+		else {
+			
+			return null;
+			
+		}
 		
 	}
 

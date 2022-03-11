@@ -27,5 +27,6 @@ public interface StockService {
 			throws IOException;
 	public List<Schedule> returnHolidaySchedule();
 	public Optional<List<Stock>> returnTotalIndexByDate(String date) throws IOException;
+	public Optional<List<Stock>> returnAllCompaniesDailyInfo() throws IOException;
 	
 }

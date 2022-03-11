@@ -34,5 +34,7 @@ public interface ControllerInterface {
 	// @GetMapping("/totalIndexHistory_{date}")
 	public String showTotalIndexHistory(@PathVariable(value = "date") String date) 
 			throws IOException;
+	// @GetMapping("/allListedCompaniesDailyInfo")
+	public String showAllListedCompaniesDailyInfo() throws IOException;
 	
 }
