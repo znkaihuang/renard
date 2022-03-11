@@ -18,6 +18,7 @@ public interface StockService {
 	
 	public void retrieveAllListedCompanies() throws IOException;
 	public void retrieveHolidaySchedule() throws IOException;
+	public void retrieveTotalIndex() throws IOException;
 	public List<Company> returnAllListedCompanies();
 	public Optional<List<Company>> returnListCompanyByCompanyId(String companyId);
 	public Optional<List<Company>> returnListCompanyByCompanyName(String companyName);

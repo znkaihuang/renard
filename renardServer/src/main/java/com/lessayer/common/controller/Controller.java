@@ -89,14 +89,6 @@ public class Controller implements ControllerInterface {
 					+ " Please try later.";
 			
 		}
-		/*
-		 * else if(LocalTime.now().compareTo(StockService.marketClosingTime) > 0) {
-		 * 
-		 * return "Stock market opens at 9:00 and closes at 13:30." +
-		 * " Please try earlier tomorrow.";
-		 * 
-		 * }
-		 */
 		else {
 			
 			if(Optional.ofNullable(lastRequestTime).isEmpty()) {
@@ -182,17 +174,8 @@ public class Controller implements ControllerInterface {
 	public String showTotalIndexHistory(@PathVariable(value = "date") String date) 
 			throws IOException {
 		
-		String[] monthString = new String[6];
-		monthString[5] = date;
-		for(int i = 4; i >= 0; i--) {
-			monthString[i] = createPrevMonthString(monthString[i + 1]);
-		}
-		List<Stock> indexHalfYearHistory = new ArrayList<Stock>();
-		for(int i = 0; i < 6; i ++) {
-			indexHalfYearHistory
-				.addAll(stockService.returnTotalIndexByDate(monthString[i]).get());
-		}
-		return formatConverter.convertTotalIndexToJsonString(indexHalfYearHistory);
+		return formatConverter.convertTotalIndexToJsonString(
+				stockService.returnTotalIndexByDate(date).get());
 		
 	}
 	

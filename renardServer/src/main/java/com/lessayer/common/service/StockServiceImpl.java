@@ -2,7 +2,10 @@ package com.lessayer.common.service;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,7 @@ public class StockServiceImpl implements StockService {
 	
 	private List<Company> listedCompanies;
 	private List<Schedule> holidaySchedule;
+	private List<Stock> totalIndex;
 	
 	@Autowired
 	private ConnectionService connectionService;
@@ -49,6 +53,7 @@ public class StockServiceImpl implements StockService {
 		
 		retrieveAllListedCompanies();
 		retrieveHolidaySchedule();
+		retrieveTotalIndex();
 		
 	}
 	
@@ -155,15 +160,31 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public Optional<List<Stock>> returnTotalIndexByDate(String date) throws IOException {
+	public void retrieveTotalIndex() throws IOException {
 		
+		Date currentDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		String[] lastHalfYearMonth = createLastHalfYearString(dateFormat.format(currentDate));
 		URL url = new URL(twsetotalindexhistoryURL);
 		Map<String, String> pathVar = new HashMap<>();
 		pathVar.put("response", "json");
-		pathVar.put("date", date);
-		String responseContent = connectionService.getResponseContentWithPathVar(url, pathVar);
-		return Optional.ofNullable(
-				formatConverter.convertJsonStringToTotalIndex(responseContent));
+		totalIndex = new ArrayList<Stock>();
+		
+		for(int i = 0; i < lastHalfYearMonth.length; i++) {
+			
+			pathVar.put("date", lastHalfYearMonth[i]);
+			String responseContent = connectionService.
+					getResponseContentWithPathVar(url, pathVar);
+			totalIndex.addAll(formatConverter.convertJsonStringToTotalIndex(responseContent));
+			
+		}
+		
+	}
+	
+	@Override
+	public Optional<List<Stock>> returnTotalIndexByDate(String date) throws IOException {
+		
+		return Optional.ofNullable(totalIndex);
 		
 	}
 
@@ -174,6 +195,40 @@ public class StockServiceImpl implements StockService {
 		String responseContent = connectionService.getResponseContent(url);
 		return Optional.ofNullable(
 				formatConverter.convertJsonStringToStockClass(responseContent, "twseopenapi"));
+	}
+	
+	public String[] createLastHalfYearString(String date) {
+		
+		String[] halfYearStrings = new String[6];
+		halfYearStrings[5] = date;
+		for(int i = 4; i >= 0; i--) {
+			halfYearStrings[i] = createLastMonthString(halfYearStrings[i + 1]);
+		}
+		return halfYearStrings;
+		
+	}
+	
+	public String createLastMonthString(String date) {
+		
+		StringBuilder lastMonthDateString = new StringBuilder();
+		int year = Integer.parseInt(date.substring(0, 4));
+		int month = Integer.parseInt(date.substring(4, 6)) - 1;
+		if(month < 1) {
+			month = 12;
+			year -= 1;
+		}
+		if(month < 10) {
+			
+			return lastMonthDateString.append(year).append("0").append(month)
+					.append("01").toString();
+		
+		}
+		else {
+			
+			return lastMonthDateString.append(year).append(month).append("01").toString();
+			
+		}
+		
 	}
 	
 }
