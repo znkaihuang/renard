@@ -11,18 +11,18 @@
 		<nav th:fragment="navbar">
 			<ul>
 				<li class="nav-left">
-					<a href="/" class="nav-active">大盤資訊</a>
+					<a href="/home" id="homeURL">大盤資訊</a>
 			  	</li>
 				<li class="nav-left">
-					<a href="/">查詢個股</a>
+					<a href="/companyStockHistory" id="companyStockHistoryURL">查詢個股</a>
 				</li>
-				<li class="nav-left">
+				<li class="nav-left" id="companyInfoURL">
 					<a href="/">查詢公司資訊</a>
 				</li>
 				<li th:if="${isAdmin} == true" class="nav-left">
 					<a href="/">Admin page</a>
 				</li>
-				<li class="nav-left">
+				<li class="nav-left" id="orderSystemURL">
 					<a href="/">下單系統</a>
 				</li>
 				<li class="nav-right">
