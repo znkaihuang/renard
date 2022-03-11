@@ -121,13 +121,13 @@ function createIndexTable(data) {
 	tableHeader.innerHTML = "<tr><th>日期</th><th>當日開盤</th><th>當日最高</th>"+
 							"<th>當日最低</th><th>當日收盤</th></tr>"
 	let bodyString = "";
-	for(var i = 0; i < data.length; i++) {
+	for(var i = data.length - 1; i >= 0; i--) {
 		bodyString += createIndexRow(data[i]);
 	}
 	tableBody.innerHTML = bodyString;
 	indexTable.append(tableHeader);
 	indexTable.append(tableBody);
-	document.getElementById("indexPlot").append(indexTable);
+	document.getElementById("indexTable").append(indexTable);
 }
 
 function createIndexRow(rowData) {
@@ -180,7 +180,7 @@ function plotChart(dataObjectArray) {
 		showlegend: false, 
 		xaxis: {
     		autorange: true, 
-			title: 'Date', 
+			title: '日期', 
 			type: 'date'
 		}, 
 		yaxis: {
