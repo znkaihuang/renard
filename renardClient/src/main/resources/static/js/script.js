@@ -131,7 +131,7 @@ function createIndexTable(data) {
 }
 
 function createIndexRow(rowData) {
-	return "<tr><td>" + rowData.date + "</td><td>" + rowData.openingPrice +"</td><td>"
+	return "<tr><td>" + rowData.date + "</td><td>" + rowData.openingPrice + "</td><td>"
 		+ rowData.highestPrice + "</td><td>" + rowData.lowestPrice + "</td><td>"
 		+ rowData.closingPrice + "</td></tr>";
 }
@@ -188,9 +188,13 @@ function plotChart(dataObjectArray) {
 			type: 'linear'
 		}
 	};
-	Plotly.newPlot('plotChart', data, layout);
+	Plotly.newPlot("plotChart", data, layout);
 }
 
 function stringToFloat(numberString) {
 	return parseFloat(numberString.split(",").join(""));
 }
+
+/**
+ * Rank Info
+ */
