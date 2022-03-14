@@ -20,4 +20,18 @@ public class ViewController {
 		
 	}
 	
+	@GetMapping("/companyInfo")
+	public String displayComapnInfoHistory() {
+		
+		return "companyInfo";
+		
+	}
+	
+	@GetMapping("/orderSystem")
+	public String displayOrderSystem() {
+		
+		return "orderSystem";
+		
+	}
+	
 }
