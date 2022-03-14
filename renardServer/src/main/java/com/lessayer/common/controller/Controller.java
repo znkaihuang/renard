@@ -3,7 +3,6 @@ package com.lessayer.common.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,32 +90,20 @@ public class Controller implements ControllerInterface {
 		}
 		else {
 			
-			if(Optional.ofNullable(lastRequestTime).isEmpty()) {
+			if(isRequestAvail()) {
 				
-				lastRequestTime = LocalTime.now();
 				return formatConverter.convertInstantStockInfoClassToJsonString(
 						stockService.returnStockInstantInfoByCompanyId(companyId).get());
 			
 			}
 			else {
-				
-				if(LocalTime.now().isAfter(lastRequestTime.plusSeconds(10))) {
+
+				String warnMessage = "Your previous request is at " 
+						+ lastRequestTime.toString()
+						+ ". Please send another request 10 seconds later.";
+				return warnMessage;
 					
-					lastRequestTime = LocalTime.now();
-					return formatConverter.convertInstantStockInfoClassToJsonString(
-							stockService.returnStockInstantInfoByCompanyId(companyId).get());
-					
-				}
-				else {
-					
-					String warnMessage = "Your previous request is at " 
-							+ lastRequestTime.toString()
-							+ ". Please send another request 10 seconds later.";
-					return warnMessage;
-					
-				}
 			}
-			
 		}
 	}
 	
@@ -203,6 +190,29 @@ public class Controller implements ControllerInterface {
 		
 		return formatConverter.convertStockClassToJsonString(
 				stockService.returnAllCompaniesDailyInfo().get());
+	}
+	
+	public boolean isRequestAvail() {
+		
+		if(Optional.ofNullable(lastRequestTime).isEmpty()) {
+			
+			lastRequestTime = LocalTime.now();
+			return true;
+			
+		}
+		
+		if(lastRequestTime.plusSeconds(10).isBefore(LocalTime.now())) {
+			
+			lastRequestTime = LocalTime.now();
+			return true;
+			
+		}
+		else {
+			
+			return false;
+			
+		}
+		
 	}
 	
 }
