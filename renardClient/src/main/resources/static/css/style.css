@@ -124,3 +124,41 @@ div#indexTable table th {
 div.rankInfo {
 	border: 1px solid black;
 }
+
+/*Search form*/
+form.searchForm {
+	margin-left: 40%;
+}
+
+form.searchForm label {
+	font-size: 16px;
+	
+}
+
+form.searchForm input[type=text] {
+	width: 20%;
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-size: 16px;
+  	background-color: white;
+  	background-image: url('../icon_and_picture/searchicon.png');
+  	background-position: 10px 10px; 
+  	background-repeat: no-repeat;
+  	padding: 10px 20px 10px 40px;
+}
+
+form.searchForm input[type=submit],
+form.searchForm button {
+  background-color: #04AA6D;
+  color: white;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form.searchForm input[type=submit]:hover {
+  background-color: #45a049;
+}
