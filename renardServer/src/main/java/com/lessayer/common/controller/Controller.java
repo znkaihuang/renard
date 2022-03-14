@@ -100,7 +100,7 @@ public class Controller implements ControllerInterface {
 
 				String warnMessage = "Your previous request is at " 
 						+ lastRequestTime.toString()
-						+ ". Please send another request 10 seconds later.";
+						+ ". Please send another request 5 seconds later.";
 				return warnMessage;
 					
 			}
@@ -201,7 +201,7 @@ public class Controller implements ControllerInterface {
 			
 		}
 		
-		if(lastRequestTime.plusSeconds(10).isBefore(LocalTime.now())) {
+		if(lastRequestTime.plusSeconds(5).isBefore(LocalTime.now())) {
 			
 			lastRequestTime = LocalTime.now();
 			return true;
