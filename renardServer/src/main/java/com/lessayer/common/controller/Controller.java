@@ -32,7 +32,6 @@ public class Controller implements ControllerInterface {
 	@GetMapping("/allCompanies")
 	public String showListedCompanies() throws IOException {
 		
-		lastRequestTime = LocalTime.now();
 		return formatConverter.convertCompanyClassToJsonString(
 				stockService.returnAllListedCompanies());
 		
