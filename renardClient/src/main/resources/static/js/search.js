@@ -3,7 +3,6 @@
  */
 
 var companyList;
-let indexHistoryArray = [];
 (async function init() {
 	getDateTime();
 	companyList = await getAllCompaniesInfo();

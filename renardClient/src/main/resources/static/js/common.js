@@ -46,6 +46,9 @@ function showInstantInfo(url) {
 	    	document.getElementById("todayIndexLowest").innerHTML = instantIndexInfo[0].lowestPrice;
 	    	document.getElementById("todayOpeningIndex").innerHTML = instantIndexInfo[0].openingPrice;
 	    	document.getElementById("yesterdayClosingIndex").innerHTML = instantIndexInfo[0].yesterdayClosingPrice;
+	    	if(document.getElementById("transaction") !== null) {
+				document.getElementById("transaction").innerHTML = instantIndexInfo[0].transactionVolume;
+			}
 	    	doOnceFlag = true;
 	    });
 }
@@ -102,6 +105,7 @@ function plotChart(dataObjectArray) {
 			type: 'linear'
 		}
 	};
+	
 	Plotly.newPlot("plotChart", data, layout);
 }
 
@@ -119,8 +123,13 @@ function createIndexTable(data) {
 	let indexTable = document.createElement("table");
 	let tableHeader = document.createElement("thead");
 	let tableBody = document.createElement("tbody");
+	indexTable.setAttribute("id", "historyTable");
 	tableHeader.innerHTML = "<tr><th>日期</th><th>當日開盤</th><th>當日最高</th>"+
 							"<th>當日最低</th><th>當日收盤</th></tr>"
+	if(document.getElementById("transaction") !== null) {
+		tableHeader.innerHTML = "<tr><th>日期</th><th>當日開盤</th><th>當日最高</th>"+
+							"<th>當日最低</th><th>當日收盤</th><th>成交量</th></tr>";
+	}
 	let bodyString = "";
 	for(var i = data.length - 1; i >= 0; i--) {
 		bodyString += createIndexRow(data[i]);
@@ -132,13 +141,18 @@ function createIndexTable(data) {
 }
 
 function createIndexRow(rowData) {
+	if(document.getElementById("transaction") !== null) {
+		return "<tr><td>" + rowData.date + "</td><td>" + rowData.openingPrice + "</td><td>"
+			+ rowData.highestPrice + "</td><td>" + rowData.lowestPrice + "</td><td>"
+			+ rowData.closingPrice + "</td><td>" + rowData.transaction + "</td></tr>";
+	}
 	return "<tr><td>" + rowData.date + "</td><td>" + rowData.openingPrice + "</td><td>"
 		+ rowData.highestPrice + "</td><td>" + rowData.lowestPrice + "</td><td>"
 		+ rowData.closingPrice + "</td></tr>";
 }
 
 function getIndexHistoryInfo(url) {
-	
+	let indexHistoryArray = [];
 	fetch(url)
 		.then(function(response) {
 			return response.json();
