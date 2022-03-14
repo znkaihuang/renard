@@ -29,6 +29,8 @@ public class StockServiceImpl implements StockService {
 	private List<Company> listedCompanies;
 	private List<Schedule> holidaySchedule;
 	private List<Stock> totalIndex;
+	private Date currentDate = new Date();
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	
 	@Autowired
 	private ConnectionService connectionService;
@@ -117,14 +119,23 @@ public class StockServiceImpl implements StockService {
 	public Optional<List<Stock>> returnStockByDateAndCompanyId(String date, String companyId) 
 			throws IOException {
 		
+		String[] lastHalfYearMonth = createLastHalfYearString(date);
+		List<Stock> historyIndex = new ArrayList<Stock>();
 		URL url = new URL(twsestockhistroyURL);
 		Map<String, String> pathVar = new HashMap<>();
 		pathVar.put("response", "json");
-		pathVar.put("date", date);
 		pathVar.put("stockNo", companyId);
-		String responseContent = connectionService.getResponseContentWithPathVar(url, pathVar);
-		List<Stock> stock = formatConverter.convertJsonStringToStockClass(responseContent, "twse");
-		return Optional.ofNullable(stock);
+		for(int i = 0; i < lastHalfYearMonth.length; i++) {
+			
+			pathVar.put("date", lastHalfYearMonth[i]);
+			String responseContent = connectionService.
+					getResponseContentWithPathVar(url, pathVar);
+			historyIndex.addAll(formatConverter
+					.convertJsonStringToStockClass(responseContent, "twse"));
+			
+		}
+		
+		return Optional.ofNullable(historyIndex);
 		
 	}
 
@@ -162,8 +173,6 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public void retrieveTotalIndex() throws IOException {
 		
-		Date currentDate = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		String[] lastHalfYearMonth = createLastHalfYearString(dateFormat.format(currentDate));
 		URL url = new URL(twsetotalindexhistoryURL);
 		Map<String, String> pathVar = new HashMap<>();
