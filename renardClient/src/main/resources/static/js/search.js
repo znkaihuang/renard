@@ -100,7 +100,7 @@ function getIndexHistoryInfo(companyId) {
 		})
 		.then(async function(indexHistory) {
 			//console.log(indexHistory.length);
-			console.log(indexHistory);
+			//console.log(indexHistory);
 			for(var i = 0; i < indexHistory.length; i++) {
 				indexHistoryArray.push(
 					new Stock(transformDate(indexHistory[i].date), indexHistory[i].tradeVolume,
