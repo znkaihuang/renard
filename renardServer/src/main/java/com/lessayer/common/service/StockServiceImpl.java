@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.lessayer.common.entity.Company;
+import com.lessayer.common.entity.IndustryType;
 import com.lessayer.common.entity.InstantStockInfo;
 import com.lessayer.common.entity.Schedule;
 import com.lessayer.common.entity.Stock;
@@ -31,6 +32,7 @@ public class StockServiceImpl implements StockService {
 	private List<Stock> totalIndex;
 	private Date currentDate = new Date();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	private Map<String, String> industryMap = IndustryType.returnIndustryTypMap();
 	
 	@Autowired
 	private ConnectionService connectionService;
@@ -238,6 +240,12 @@ public class StockServiceImpl implements StockService {
 			
 		}
 		
+	}
+
+	@Override
+	public Map<String, String> returnIndustryTypeMap() {
+		
+		return this.industryMap;
 	}
 	
 }

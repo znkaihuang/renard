@@ -213,5 +213,11 @@ public class Controller implements ControllerInterface {
 		}
 		
 	}
+
+	@GetMapping("/industryType")
+	public String showIndustryType() {
+		
+		return stockService.returnIndustryTypeMap().toString();
+	}
 	
 }

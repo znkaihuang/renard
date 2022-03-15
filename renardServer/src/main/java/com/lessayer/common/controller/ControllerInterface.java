@@ -36,5 +36,6 @@ public interface ControllerInterface {
 			throws IOException;
 	// @GetMapping("/allListedCompaniesDailyInfo")
 	public String showAllListedCompaniesDailyInfo() throws IOException;
+	public String showIndustryType();
 	
 }

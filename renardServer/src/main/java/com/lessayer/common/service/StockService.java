@@ -3,6 +3,7 @@ package com.lessayer.common.service;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -29,5 +30,6 @@ public interface StockService {
 	public List<Schedule> returnHolidaySchedule();
 	public Optional<List<Stock>> returnTotalIndexByDate(String date) throws IOException;
 	public Optional<List<Stock>> returnAllCompaniesDailyInfo() throws IOException;
+	public Map<String, String> returnIndustryTypeMap();
 	
 }
