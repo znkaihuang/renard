@@ -181,3 +181,24 @@ div#companyInstantIndex #todayIndexLowest {
 	font-weight: bold;
 	color: green;
 }
+
+/*Company info table*/
+table#companyInfoTable {
+	border-collapse: collapse;
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 20px;
+	text-align: center;
+}
+
+table#companyInfoTable tr,
+table#companyInfoTable td,
+table#companyInfoTable th {
+	border: 1px solid #ddd;
+	padding: 10px 5px;
+}
+
+table#companyInfoTable th {
+  background-color: #04AA6D;
+  color: white;
+}

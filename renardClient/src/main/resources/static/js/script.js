@@ -3,7 +3,6 @@
  */
 
 let doOnceFlag = false;
-let indexHistoryArray = [];
 
 (function init() {
 	getInstantInfo(); 

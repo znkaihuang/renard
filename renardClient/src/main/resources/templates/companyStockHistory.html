@@ -14,7 +14,7 @@
 		<div th:replace="~{fragment :: header}"></div>
 		<div th:replace="~{fragment :: navbar}"></div>
 		<script>setNavBarTagActive("companyStockHistoryURL")</script>
-		
+		<script>getDateTime()</script>
 		<div id="companyInstantIndex">
 			<h2>查詢個股即時股價</h2>
 			<form onsubmit="return showCompanyInstantIndex()" class="searchForm" id="searchForm">
