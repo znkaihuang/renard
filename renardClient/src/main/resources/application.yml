@@ -1,10 +1,16 @@
-
-
-#debug: true
-
 management:
   endpoints:
     web:
       exposure:
         include:
         - '*'
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: '!Ohmygod123'
+    url: jdbc:mysql://localhost:3306/stock_transaction
+    username: zkhuang
+  jpa:
+    hibernate:
+      ddl-auto: update
