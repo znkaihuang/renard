@@ -18,12 +18,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.lessayer.common.entity.Transaction;
 import com.lessayer.common.repository.TransactionRepository;
+import com.lessayer.common.service.StorageStockService;
 import com.lessayer.common.service.TransactionService;
 
 @SpringBootApplication
 public class RenardApplication implements CommandLineRunner {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	private TransactionService service;
 	
 	public static void main(String[] args) {
 		
@@ -52,6 +56,16 @@ public class RenardApplication implements CommandLineRunner {
 		 * 
 		 * } logger.info(content.toString());
 		 */
+		
+		service.createTransaction("20220316", "1011 台泥", 49.5, 2000, "buy");
+		service.createTransaction("20220316", "1012 亞泥", 33.2, 2000, "buy");
+		service.createTransaction("20220316", "1013 嘉泥", 10.0, 1000, "buy");
+		service.createTransaction("20220317", "1011 台泥", 50.0, 2000, "buy");
+		service.createTransaction("20220317", "1011 台泥", 50.2, 1000, "sell");
+		service.createTransaction("20220317", "1012 亞泥", 33.0, 1000, "sell");
+		service.createTransaction("20220318", "1013 嘉泥", 10.3, 1000, "sell");
+		logger.info("Latest transaction {}", service.returnLatestTransaction().toString());
+		logger.info("Total sell profit {}", service.calculateTotalSellProfit());
 		
 	}
 
