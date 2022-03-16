@@ -17,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@NamedQuery(name = "find_all", 
+@NamedQuery(name = "find_all_transactions", 
 			query = "select t from Transaction t")
 @Entity
 public class Transaction {

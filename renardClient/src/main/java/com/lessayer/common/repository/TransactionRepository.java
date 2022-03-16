@@ -23,7 +23,7 @@ public class TransactionRepository {
 	// PSQL Query: "select t from Task t"
 	public List<Transaction> retrieveAllTransactions() {
 		
-		query = entityManager.createNamedQuery("find_all", Transaction.class);
+		query = entityManager.createNamedQuery("find_all_transactions", Transaction.class);
 		return query.getResultList();
 		
 	}
