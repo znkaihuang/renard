@@ -183,7 +183,9 @@ div#companyInstantIndex #todayIndexLowest {
 }
 
 /*Company info table*/
-table#companyInfoTable {
+table#companyInfoTable,
+table#storageStockTable,
+table#transactionTable {
 	border-collapse: collapse;
 	width: 80%;
 	margin-left: 10%;
@@ -193,12 +195,80 @@ table#companyInfoTable {
 
 table#companyInfoTable tr,
 table#companyInfoTable td,
-table#companyInfoTable th {
+table#companyInfoTable th,
+table#storageStockTable tr,
+table#storageStockTable td,
+table#storageStockTable th,
+table#transactionTable tr,
+table#transactionTable td,
+table#transactionTable th {
 	border: 1px solid #ddd;
 	padding: 10px 5px;
 }
 
-table#companyInfoTable th {
+table#companyInfoTable th,
+table#storageStockTable th,
+table#transactionTable th {
   background-color: #04AA6D;
   color: white;
+}
+
+/*Order bar*/
+form.orderForm {
+	margin-left: 20px;
+}
+
+form.orderForm label {
+	margin-left: 20px;
+	font-size: 20px;
+	color: #2e3436;
+}
+
+form.orderForm input[type=text] {
+	width: 10%;
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-size: 16px;
+  	background-color: white;
+  	background-position: 10px 10px; 
+  	background-repeat: no-repeat;
+  	padding: 10px;
+  	margin-left: 10px;
+}
+
+form.orderForm input[type=submit],
+form.orderForm button {
+  background-color: #04AA6D;
+  color: white;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form.orderForm input[type=submit]#buyButton {
+  background-color: #5bb450;
+}
+
+form.orderForm input[type=submit]#sellButton {
+  background-color: #ea4638;
+}
+
+/*Date time section*/
+div#dateTimeSection p,
+div#currentProfit p {
+	font-size: 20px;
+	margin-left: 40px;
+}
+
+div#dateTimeSection output,
+div#currentProfit output {
+	font-weight: bold;
+	color: #2e3436;
+}
+
+p.note {
+	text-align: center;
 }
