@@ -25,9 +25,9 @@
 		
 		<div id="orderBar">
 			<h2>股票交易</h2>
-			<form action="" class="orderForm" id="searchForm">
+			<form action="#" th:action="@{/orderSystem}" class="orderForm" id="searchForm" method="post">
 				<label for="companySearch">股票代號</label>
-				<input type="text" id="companySearch" name="search"
+				<input type="text" id="companySearch" name="stockId"
 					list="companyAndId" placeholder="範例： 1101 台泥" maxlength="4" required="required">
 				<datalist id="companyAndId">
 				</datalist>
