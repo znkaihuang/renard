@@ -1,6 +1,7 @@
 package com.lessayer.common.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,19 @@ public class TransactionService {
 		else {
 			
 			StorageStock soldStock = stockService.returnStorageStockByStockId(stockId);
-			Double sellProfit = price * volume - soldStock.avgPrice * volume;
-			repository.createTransaction(
-					new Transaction(date, stockId, price, volume, "賣出", sellProfit));
-			stockService.sellStock(stockId, price, volume);
+			if(Optional.ofNullable(soldStock).isPresent()) {
+				
+				Double sellProfit = price * volume - soldStock.avgPrice * volume;
+				repository.createTransaction(
+						new Transaction(date, stockId, price, volume, "賣出", sellProfit));
+				stockService.sellStock(stockId, price, volume);
+			
+			}
+			else {
+				
+				return;
+				
+			}
 			
 		}
 	}
