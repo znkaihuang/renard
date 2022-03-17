@@ -43,7 +43,9 @@
 			<p>
 				存股淨值： <output id="storageStockValue" th:text="${stockTotalValue}">0</output> 
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				買賣價差獲利： <output id="transactionProfit" th:text="${transactionProfit}">0</output>
+				買賣價差獲利： <output id="transactionProfit" th:text="${transactionProfit}" 
+				th:class="${transactionProfit} >= 0 ? 
+					((${transactionProfit} > 0) ? 'positive') : 'negative'">0</output>
 			</p>
 		</div>
 		<div id="storageStock">
@@ -85,7 +87,8 @@
 				</thead>
 				<tbody>
 					<tr th:each="transaction : ${transactions}">
-						<td th:text="${transaction.buyOrSell}"></td>
+						<td id="buyOrSell" th:text="${transaction.buyOrSell}"
+							th:class="${transaction.buyOrSell} == '買進' ? 'buy' : 'sell'"></td>
 						<td th:text="${transaction.date}"></td>
 						<td th:text="${transaction.stockId}"></td>
 						<td th:text="${transaction.volume}"></td>

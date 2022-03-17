@@ -272,3 +272,16 @@ div#currentProfit output {
 p.note {
 	text-align: center;
 }
+
+/*Order system*/
+output#transactionProfit.positive,
+td#buyOrSell.buy {
+	color: green;
+	font-weight: bold;
+}
+
+output#transactionProfit.negative,
+td#buyOrSell.sell {
+	color: red;
+	font-weight: bold;
+}
