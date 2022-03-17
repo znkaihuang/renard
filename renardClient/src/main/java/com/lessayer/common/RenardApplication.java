@@ -23,53 +23,57 @@ import com.lessayer.common.service.TransactionService;
 
 @SpringBootApplication
 public class RenardApplication implements CommandLineRunner {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private TransactionService service;
-	
+
 	public static void main(String[] args) {
-		
+
 		SpringApplication.run(RenardApplication.class, args);
-	
+
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+
 		
 		/*
 		 * logger.info("Starting renard ..."); URL url = new
-		 * URL("http://localhost:8081/renardServer/holidaySchedule"); HttpURLConnection
-		 * connection = (HttpURLConnection) url.openConnection();
-		 * connection.setRequestMethod("GET");
-		 * 
-		 * StringBuilder content = new StringBuilder(); try(BufferedReader
-		 * bufferedReader = new BufferedReader( new
-		 * InputStreamReader(connection.getInputStream(), "utf-8"))) {
-		 * 
-		 * 
-		 * String string = null; while((string = bufferedReader.readLine()) != null) {
-		 * content.append(string);
-		 * 
-		 * }
-		 * 
-		 * } logger.info(content.toString());
+		 * URL("https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL");
+		 * HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		 * connection.setRequestMethod("GET"); logger.info("Header {}" ,
+		 * connection.getHeaderField("last-modified"));
 		 */
-		
-		/*
-		 * service.createTransaction("20220316", "1011 台泥", 49.5, 2000, "buy");
-		 * service.createTransaction("20220316", "1012 亞泥", 33.2, 2000, "buy");
-		 * service.createTransaction("20220316", "1013 嘉泥", 10.0, 1000, "buy");
-		 * service.createTransaction("20220317", "1011 台泥", 50.0, 2000, "buy");
-		 * service.createTransaction("20220317", "1011 台泥", 50.2, 1000, "sell");
-		 * service.createTransaction("20220317", "1012 亞泥", 33.0, 1000, "sell");
-		 * service.createTransaction("20220318", "1013 嘉泥", 10.3, 1000, "sell");
-		 * logger.info("Latest transaction {}",
-		 * service.returnLatestTransaction().toString());
-		 * logger.info("Total sell profit {}", service.calculateTotalSellProfit());
-		 */
-		
+		  
+			/*
+			 * StringBuilder content = new StringBuilder(); try(BufferedReader
+			 * bufferedReader = new BufferedReader( new
+			 * InputStreamReader(connection.getInputStream(), "utf-8"))) {
+			 * 
+			 * 
+			 * String string = null; while((string = bufferedReader.readLine()) != null) {
+			 * content.append(string);
+			 * 
+			 * }
+			 * 
+			 * } logger.info(content.toString());
+			 */
+
+			/*
+			 * service.createTransaction("20220316", "1101 台泥", 49.5, 2000, "買進");
+			 * service.createTransaction("20220316", "1102 亞泥", 33.2, 2000, "買進");
+			 * service.createTransaction("20220316", "1103 嘉泥", 10.0, 1000, "買進");
+			 * service.createTransaction("20220317", "1101 台泥", 50.0, 2000, "買進");
+			 * service.createTransaction("20220317", "1101 台泥", 50.2, 1000, "賣出");
+			 * service.createTransaction("20220317", "1102 亞泥", 33.0, 1000, "賣出");
+			 * service.createTransaction("20220318", "1103 嘉泥", 10.3, 1000, "賣出");
+			 * logger.info("Latest transaction {}",
+			 * service.returnLatestTransaction().toString());
+			 * logger.info("Total sell profit {}", service.calculateTotalSellProfit());
+			 */
+
 	}
 
 }
