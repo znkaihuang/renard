@@ -61,5 +61,21 @@ public class ConnectionServiceImpl implements ConnectionService {
 		return response.toString();
 		
 	}
+
+	@Override
+	public String getResponseHeader(URL url, String headerField) throws IOException {
+		
+		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+		
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Content-Type", "application/json; utf-8");
+		connection.setRequestProperty("Accept", "application/json");
+		connection.setRequestProperty("Cache-Control", "no-cache");
+		connection.setRequestProperty("If-Modified-Since", "Mon, 26 Jul 1997 05:00:00 GMT");
+		connection.setRequestProperty("Pragma", "no-cache");
+		
+		return connection.getHeaderField(headerField);
+		
+	}
 	
 }

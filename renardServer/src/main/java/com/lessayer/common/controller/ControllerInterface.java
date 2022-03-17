@@ -1,6 +1,7 @@
 package com.lessayer.common.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -36,6 +37,9 @@ public interface ControllerInterface {
 			throws IOException;
 	// @GetMapping("/allListedCompaniesDailyInfo")
 	public String showAllListedCompaniesDailyInfo() throws IOException;
+	// @GetMapping("/lastModifiedDateOfCompaniesDailyInfo")
+	public String returnLastModifiedDateOfAllCompaniesDailyInfo() 
+			throws IOException, ParseException;
 	// @GetMapping("/industryType")
 	public String showIndustryType();
 	

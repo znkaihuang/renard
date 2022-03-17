@@ -2,14 +2,20 @@ package com.lessayer.common.service;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
@@ -32,6 +38,8 @@ public class StockServiceImpl implements StockService {
 	private List<Stock> totalIndex;
 	private Date currentDate = new Date();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	private DateFormat gmtDateFormat = 
+			new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
 	private Map<String, String> industryMap = IndustryType.returnIndustryTypMap();
 	
 	@Autowired
@@ -206,6 +214,17 @@ public class StockServiceImpl implements StockService {
 		String responseContent = connectionService.getResponseContent(url);
 		return Optional.ofNullable(
 				formatConverter.convertJsonStringToStockClass(responseContent, "twseopenapi"));
+	}
+	
+	@Override
+	public String returnLastModifiedDateOfAllCompaniesDailyInfo() 
+			throws IOException, ParseException {
+		
+		URL url = new URL(twseopenapilistedcompanyinfoURL);
+		
+		String dateString = connectionService.getResponseHeader(url, "last-modified");
+		return dateFormat.format(gmtDateFormat.parse(dateString)).toString();
+		
 	}
 	
 	public String[] createLastHalfYearString(String date) {

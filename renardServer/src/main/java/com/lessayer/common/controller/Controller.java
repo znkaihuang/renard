@@ -1,6 +1,7 @@
 package com.lessayer.common.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -189,6 +190,13 @@ public class Controller implements ControllerInterface {
 		
 		return formatConverter.convertStockClassToJsonString(
 				stockService.returnAllCompaniesDailyInfo().get());
+	}
+	
+	@GetMapping("/lastModifiedDateOfCompaniesDailyInfo")
+	public String returnLastModifiedDateOfAllCompaniesDailyInfo() 
+			throws IOException, ParseException {
+		
+		return stockService.returnLastModifiedDateOfAllCompaniesDailyInfo();
 	}
 	
 	public boolean isRequestAvail() {

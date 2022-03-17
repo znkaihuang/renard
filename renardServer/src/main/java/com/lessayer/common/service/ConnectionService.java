@@ -7,6 +7,7 @@ import java.util.Map;
 public interface ConnectionService {
 	
 	public String getResponseContent(URL url) throws IOException;
+	public String getResponseHeader(URL url, String headerField) throws IOException;
 	public String getResponseContentWithPathVar(URL url, Map<String, String> pathVar)
 		throws IOException;
 	
