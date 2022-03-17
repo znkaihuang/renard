@@ -37,8 +37,11 @@ public interface ControllerInterface {
 			throws IOException;
 	// @GetMapping("/allListedCompaniesDailyInfo")
 	public String showAllListedCompaniesDailyInfo() throws IOException;
+	// @GetMapping("/companyDailyPrice_{companyId}")
+	public String showCompanyDailyPrice(@PathVariable(value = "companyId") String companyId)
+			throws ParseException, IOException;
 	// @GetMapping("/lastModifiedDateOfCompaniesDailyInfo")
-	public String returnLastModifiedDateOfAllCompaniesDailyInfo() 
+	public String showLastModifiedDateOfAllCompaniesDailyInfo() 
 			throws IOException, ParseException;
 	// @GetMapping("/industryType")
 	public String showIndustryType();

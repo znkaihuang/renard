@@ -1,6 +1,7 @@
 package com.lessayer.common.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -192,11 +193,20 @@ public class Controller implements ControllerInterface {
 				stockService.returnAllCompaniesDailyInfo().get());
 	}
 	
+	@GetMapping("/companyDailyPrice_{companyId}")
+	public String showCompanyDailyPrice(@PathVariable(value = "companyId") String companyId) 
+			throws ParseException, IOException {
+		
+		return stockService.returnCompanyDailyPrice(companyId);
+	
+	}
+	
 	@GetMapping("/lastModifiedDateOfCompaniesDailyInfo")
-	public String returnLastModifiedDateOfAllCompaniesDailyInfo() 
+	public String showLastModifiedDateOfAllCompaniesDailyInfo() 
 			throws IOException, ParseException {
 		
-		return stockService.returnLastModifiedDateOfAllCompaniesDailyInfo();
+		return DateFormat.getDateInstance().format(
+				stockService.returnLastModifiedDateOfAllCompaniesDailyInfo());
 	}
 	
 	public boolean isRequestAvail() {

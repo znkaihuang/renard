@@ -7,6 +7,8 @@ import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,6 +38,8 @@ public class StockServiceImpl implements StockService {
 	private List<Company> listedCompanies;
 	private List<Schedule> holidaySchedule;
 	private List<Stock> totalIndex;
+	private List<Stock> companyDailyInfo;
+	private Date lastFetchedDailyInfoDate;
 	private Date currentDate = new Date();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	private DateFormat gmtDateFormat = 
@@ -61,11 +65,13 @@ public class StockServiceImpl implements StockService {
 	private String twseopenapilistedcompanyinfoURL;
 	
 	@PostConstruct
-	private void initService() throws IOException {
+	private void initService() throws IOException, ParseException {
 		
 		retrieveAllListedCompanies();
 		retrieveHolidaySchedule();
 		retrieveTotalIndex();
+		companyDailyInfo = returnAllCompaniesDailyInfo().get();
+		lastFetchedDailyInfoDate = returnLastModifiedDateOfAllCompaniesDailyInfo();
 		
 	}
 	
@@ -217,13 +223,40 @@ public class StockServiceImpl implements StockService {
 	}
 	
 	@Override
-	public String returnLastModifiedDateOfAllCompaniesDailyInfo() 
+	public String returnCompanyDailyPrice(String companyId) throws ParseException, IOException {
+		
+		String priceString = null;
+		Date lastModifyDate = returnLastModifiedDateOfAllCompaniesDailyInfo();
+		if(lastModifyDate.after(lastFetchedDailyInfoDate)) {
+			
+			lastFetchedDailyInfoDate = lastModifyDate;
+			companyDailyInfo = returnAllCompaniesDailyInfo().get();
+			
+		}
+		
+		for(Stock s : companyDailyInfo) {
+			
+			if(s.getCode().compareTo(companyId) == 0) {
+				
+				priceString = s.getClosingPrice();
+				break;
+				
+			}
+			
+		}
+		
+		return priceString;
+	}
+	
+	@Override
+	public Date returnLastModifiedDateOfAllCompaniesDailyInfo() 
 			throws IOException, ParseException {
 		
 		URL url = new URL(twseopenapilistedcompanyinfoURL);
 		
 		String dateString = connectionService.getResponseHeader(url, "last-modified");
-		return dateFormat.format(gmtDateFormat.parse(dateString)).toString();
+		
+		return gmtDateFormat.parse(dateString);
 		
 	}
 	
