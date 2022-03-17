@@ -120,6 +120,9 @@ function transformDate(date) {
 }
 
 function createIndexTable(data) {
+	if(document.getElementById("historyTable") !== null) {
+		document.getElementById("historyTable").remove();
+	}
 	let indexTable = document.createElement("table");
 	let tableHeader = document.createElement("thead");
 	let tableBody = document.createElement("tbody");
