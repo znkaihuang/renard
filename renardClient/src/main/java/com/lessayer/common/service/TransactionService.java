@@ -20,9 +20,9 @@ public class TransactionService {
 	public void createTransaction(String date, String stockId, Double price, Integer volume, 
 			String buyOrSell) {
 		
-		if(buyOrSell.compareTo("buy") == 0) {
+		if(buyOrSell.compareTo("買進") == 0) {
 			
-			repository.createTransaction(new Transaction(date, stockId, price, volume, "buy", 0.0));
+			repository.createTransaction(new Transaction(date, stockId, price, volume, "買進", 0.0));
 			stockService.buyStock(stockId, price, volume);
 		
 		}
@@ -31,7 +31,7 @@ public class TransactionService {
 			StorageStock soldStock = stockService.returnStorageStockByStockId(stockId);
 			Double sellProfit = price * volume - soldStock.avgPrice * volume;
 			repository.createTransaction(
-					new Transaction(date, stockId, price, volume, "sell", sellProfit));
+					new Transaction(date, stockId, price, volume, "賣出", sellProfit));
 			stockService.sellStock(stockId, price, volume);
 			
 		}

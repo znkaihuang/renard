@@ -8,7 +8,6 @@
 		<script src="js/navbar.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/search.js"></script>
-		<!--link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">  -->
 	</head>
 	<body>
 		<div th:replace="~{fragment :: header}"></div>
@@ -42,23 +41,30 @@
 		<div id="currentProfit">
 			<h2>獲利計算</h2>
 			<p>
-				存股淨值： <output id="storageStockValue">0</output> 
+				存股淨值： <output id="storageStockValue" th:text="${stockTotalValue}">0</output> 
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				買賣價差獲利： <output id="transactionProfit">0</output>
+				買賣價差獲利： <output id="transactionProfit" th:text="${transactionProfit}">0</output>
 			</p>
 		</div>
 		<div id="storageStock">
 			<h2>存股紀錄</h2>
+			<h3 th:text="${testString}"></h3>
 			<table id="storageStockTable">
 				<thead>
 					<tr>
 						<th>股票代號</th>
 						<th>股數</th>
 						<th>成交均價</th>
-						<th>現價(日期)</th>
+						<th>現價<br>(日期：<span th:text="${updateDate}"></span>)</th>
 					</tr>
 				</thead>
 				<tbody>
+					<tr th:each="stock, iterStat : ${storageStocks}">
+						<td th:text="${stock.stockId}"></td>
+       					<td th:text="${stock.volume}"></td>
+        				<td th:text="${stock.avgPrice}"></td>
+        				<td th:text="${stockPrices[iterStat.index]}"></td>
+					</tr>
 				</tbody>
 			</table>
 			<p class="note">
@@ -78,10 +84,16 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr th:each="transaction : ${transactions}">
+						<td th:text="${transaction.buyOrSell}"></td>
+						<td th:text="${transaction.date}"></td>
+						<td th:text="${transaction.stockId}"></td>
+						<td th:text="${transaction.volume}"></td>
+						<td th:text="${transaction.price}"></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 		
-		<!--script src="webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>  -->
 	</body>
 </html>

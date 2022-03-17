@@ -61,6 +61,7 @@ public class StorageStockService {
 			
 			StorageStock s = stockOptional.get();
 			Integer totalVolume = s.getVolume() - volume;
+			Double avgPrice = (s.getAvgPrice() * s.getVolume() - price * volume) / (totalVolume);
 			if(totalVolume == 0) {
 				
 				repository.deleteStock(stockId);
@@ -68,7 +69,7 @@ public class StorageStockService {
 			}
 			else {
 				
-				repository.updateStock(stockId, s.getAvgPrice(), totalVolume);
+				repository.updateStock(stockId, avgPrice, totalVolume);
 			
 			}
 			
