@@ -25,4 +25,20 @@ renardServer: data provider<br>
 ## Screenshot
 
 - Index plot
-![IndexPlot](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/IndexPlot.png)
+![IndexPlot.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/IndexPlot.png)
+
+- Index plot and index history table
+![IndexPlotAndIndexHistoryTable.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/IndexPlotAndIndexHistoryTable.png)
+
+- Company index plot
+![CompanyIndexPlot.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/CompanyIndexPlot.png)
+
+- Company index plot and index history table
+![CompanyIndexPlotAndIndexHistoryTable.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/CompanyIndexPlotAndIndexHistoryTable.png)
+
+- Search company info
+![SearchCompanyInfo.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/SearchCompanyInfo.png)
+
+- Order system
+![OrderSystem1.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/OrderSystem1.png)
+![OrderSystem2.png](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/OrderSystem2.png)
