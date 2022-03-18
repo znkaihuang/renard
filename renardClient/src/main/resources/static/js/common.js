@@ -161,8 +161,6 @@ function getIndexHistoryInfo(url) {
 			return response.json();
 		})
 		.then(async function(indexHistory) {
-			//console.log(indexHistory.length);
-			//console.log(indexHistory);
 			for(var i = 0; i < indexHistory.length; i++) {
 				indexHistoryArray.push(
 					new Stock(transformDate(indexHistory[i].date), indexHistory[i].tradeVolume,
