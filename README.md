@@ -21,3 +21,8 @@ https://github.com/yasserg/crawler4j
 
 renardClient: data consumer<br>
 renardServer: data provider<br>
+
+## Screenshot
+
+- Index plot
+![IndexPlot](https://github.com/znkaihuang/renard/blob/main/renardScreenShot/IndexPlot.png)
