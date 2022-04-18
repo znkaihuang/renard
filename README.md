@@ -13,7 +13,7 @@
   - 計算存股市值
 
 # 系統概略
-![System overview]https://github.com/znkaihuang/renard/blob/main/System%20overview.drawio.png
+![System overview](https://github.com/znkaihuang/renard/blob/main/System%20overview.drawio.png)
 
 renardClient: forntend，透過HttpRequest向renardServer取得資料<br>
 renardServer: backend，從資料來源處取得所需資料，提供資料給renardClient<br>
